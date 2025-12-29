@@ -1,0 +1,45 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Enable bash completion
+if [ -r /usr/share/bash-completion/bash_completion ]; then
+  source /usr/share/bash-completion/bash_completion
+fi
+
+# Better completion behavior
+bind 'set completion-ignore-case on'
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
+
+# Aliases
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+# Prompt
+PS1='[\u@\h \W]\$ '
+
+# Flutter and Dart paths
+export FLUTTER_HOME=/home/vincent/flutter
+export PATH=$FLUTTER_HOME/bin:$FLUTTER_HOME/bin/cache/dart-sdk/bin:$PATH
+
+# Java paths
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+export PATH=$JAVA_HOME/bin:$PATH
+
+# Node Version Manager (NVM)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+# ghcup
+[ -f "/home/vincent/.ghcup/env" ] && . "/home/vincent/.ghcup/env"
+
+# script PATH
+export PATH="$HOME/bin:$PATH"
+
+# another script PATH (modern)
+export PATH="$HOME/.local/bin:$PATH"

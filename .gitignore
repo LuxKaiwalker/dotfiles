@@ -1,0 +1,18 @@
+# Shell history
+.bash_history
+fish_history
+
+# Neovim
+lazy-lock.json
+plugin/
+*.log
+
+# Hyprland runtime
+*.lock
+
+# OS junk
+.DS_Store
+
+# Konsole
+konsole/
+

@@ -1,0 +1,79 @@
+{
+  "layer": "top",
+  "position": "top",
+  "margin-top": 8,
+  "margin-left": 10,
+  "margin-right": 10,
+  "spacing": 4,
+
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "tray",
+    "cpu",
+    "memory",
+    "bluetooth",
+    "network",
+    "wireplumber",
+    "backlight",
+    "battery",
+    "custom/mako",
+    "custom/power"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "sort-by-number": true,
+    "persistent-workspaces": {
+      "*": 10 
+    }
+  },
+
+  "bluetooth": {
+    "format": "",
+    "format-connected": " {device_alias}",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "on-click": "konsole --title 'bluetui-float' -e bluetui"
+  },
+
+  "network": {
+    "format-wifi": " ",
+    "format-ethernet": "󰈀 ",
+    "format-disconnected": "󰖪 ",
+    "on-click": "konsole --title 'nmtui-float' -e nmtui"
+  },
+
+  "clock": {
+    "format": "󱑊 {:%H:%M}",
+    "format-alt": "󰃭 {:%a, %b %d}",
+    "tooltip-format": "<tt>{calendar}</tt>"
+  },
+
+  "wireplumber": {
+    "format": "{icon} {volume}%",
+    "format-icons": ["", "", ""],
+    "on-click": "pavucontrol"
+  },
+
+  "custom/mako": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "makoctl mode -t dnd",
+    "on-click-right": "makoctl dismiss -a"
+  },
+
+  "custom/power": {
+    "format": "",
+    "on-click": "hyprctl dispatch exit"
+  },
+
+  "cpu": { "format": " {usage}%" },
+  "memory": { "format": " {percentage}%" },
+  "backlight": { "format": "󰃠 {percent}%" },
+  "battery": { "format": "{icon} {capacity}%", "format-icons": ["", "", "", "", ""] },
+  "tray": { "icon-size": 16, "spacing": 5 }
+}
