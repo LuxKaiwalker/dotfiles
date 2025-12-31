@@ -68,7 +68,7 @@
 
   "custom/power": {
     "format": "",
-    "on-click": "hyprctl dispatch exit"
+    "on-click": "wlogout"
   },
 
   "cpu": { "format": " {usage}%" },
