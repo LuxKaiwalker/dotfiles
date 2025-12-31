@@ -1,0 +1,48 @@
+* {
+    background-image: none;
+    transition: 250ms ease-in-out;
+}
+
+window {
+    /* Deepest charcoal-green */
+    background-color: rgba(12, 12, 12, 0.8);
+    /* Noise texture overlay */
+    background-image: url('./noise.png');
+}
+
+button {
+    color: #889688; /* Lichen green text */
+    background-color: rgba(20, 27, 20, 0.8); 
+    border: 1px solid rgba(40, 50, 40, 0.6);
+    border-radius: 15px;
+    margin: 15px;
+    
+    /* ICON POSITIONING */
+    background-repeat: no-repeat;
+    background-position: center 20%; /* Anchored higher for the larger icon */
+    background-size: 64px; /* INCREASED: Larger, clearer icons */
+    
+    /* TEXT POSITIONING */
+    /* Adjust this if the text is too close or too far */
+    padding-top: 110px; 
+    
+    font-family: "JetBrains Mono", "Roboto", sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+button:focus, button:active, button:hover {
+    /* Misty forest glow */
+    background-color: rgba(52, 78, 65, 0.5);
+    border-color: #81b29a;
+    color: #dad7cd; /* Bright mist-white on hover */
+    outline-style: none;
+}
+
+/* Icon Paths */
+#lock      { background-image: image(url("/usr/share/wlogout/icons/lock.png")); }
+#logout    { background-image: image(url("/usr/share/wlogout/icons/logout.png")); }
+#suspend   { background-image: image(url("/usr/share/wlogout/icons/suspend.png")); }
+#hibernate { background-image: image(url("/usr/share/wlogout/icons/hibernate.png")); }
+#shutdown  { background-image: image(url("/usr/share/wlogout/icons/shutdown.png")); }
+#reboot    { background-image: image(url("/usr/share/wlogout/icons/reboot.png")); }
