@@ -6,6 +6,8 @@ check nm applet
 
 fix app launch warning for waybar
 
+add charging symbok if i have time
+
 use scratchpad
 
 store all passwords to some safer location, current location is here
@@ -15,3 +17,6 @@ check if wifi also connect to new devices
 learn fish shortcuts
 
 fis screenshot and test
+
+check bluetooth connectivity
+
