@@ -7,8 +7,10 @@ format=<b>%a ⏵</b> %s\n%b
 sort=-time
 output=DP-2
 layer=overlay
-anchor=bottom-center
-background-color=#2e3440
+# changed from bottom-center to top-right
+anchor=top-right
+# darker + semi-transparent (~50% opacity)
+background-color=#2e344080
 width=300
 height=110
 margin=5
@@ -18,7 +20,8 @@ border-color=#88c0d0
 border-radius=15
 icons=0
 max-icon-size=64
-default-timeout=5000
+# increased from 5000ms to 10000ms (10 seconds)
+default-timeout=10000
 ignore-timeout=1
 
 [urgency=normal]
@@ -26,6 +29,7 @@ border-color=#d08770
 
 [urgency=high]
 border-color=#bf616a
+# high urgency notifications stay indefinitely
 default-timeout=0
 
 [app-name=lightcord]
