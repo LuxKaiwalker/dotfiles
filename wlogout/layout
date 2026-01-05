@@ -1,7 +1,7 @@
 
     {
         "label": "lock",
-        "action": "swaylock -f -c 010101",
+        "action": "hyprlock",
         "text": "Lock",
         "keybind": "l"
     },
