@@ -25,3 +25,4 @@ customize notifications so they no longer look goofy
 fix gnome keyring ssh integration, it is not yet working
 
 IMPORTANT: fix/add low battery auto hibernate
+IMPORTANT: fix hibernate
