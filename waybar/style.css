@@ -34,6 +34,14 @@ window#waybar {
   font-size: 16px;
 }
 
+/* highlight an urgent workspace (like your old bar) */
+#workspaces button.urgent {
+  background: #8b4444;
+  color: white;
+  border-radius: 8px;
+}
+
+
 /* Centered Window Icon */
 #window {
   font-size: 16px;
