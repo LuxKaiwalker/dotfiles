@@ -7,8 +7,7 @@ format=<b>%a ⏵</b> %s\n%b
 sort=-time
 output=DP-2
 layer=overlay
-# changed from bottom-center to top-right
-anchor=top-right
+anchor=bottom-left
 # darker + semi-transparent (~50% opacity)
 background-color=#2e344080
 width=300
@@ -20,7 +19,6 @@ border-color=#88c0d0
 border-radius=15
 icons=0
 max-icon-size=64
-# increased from 5000ms to 10000ms (10 seconds)
 default-timeout=10000
 ignore-timeout=1
 

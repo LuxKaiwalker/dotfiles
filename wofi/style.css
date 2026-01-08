@@ -40,7 +40,7 @@ window {
 #entry {
     padding: 6px 8px;
     color: #e0e0e0;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
 /* Selection only changes background + color */
