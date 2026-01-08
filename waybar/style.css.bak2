@@ -1,4 +1,5 @@
 
+/*design with non floating vertical bar*/
 @define-color bg_glass rgba(10, 14, 10, 0.85);
 @define-color fg_fog   #e0eadd;
 @define-color border_mist rgba(124, 148, 115, 0.15);
@@ -12,9 +13,7 @@
 window#waybar {
   background: @bg_glass;
   /* Floating Effect */
-  border: 1px solid @border_mist;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-right: 1px solid @border_mist;
 }
 
 /* Workspace Container */
