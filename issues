@@ -1,10 +1,6 @@
 todo:
 
-config wofi
-
 check nm applet
-
-fix app launch warning for waybar
 
 add charging symbok if i have time
 
@@ -23,5 +19,3 @@ fix gnome keyring ssh integration, it is not yet working
 make low battery auto shutdown to auto hibernate if i haeve time, upower
 
 IMPORTANT: fix hibernate
-
-fix dotfiles symlinks back
