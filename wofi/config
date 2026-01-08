@@ -1,0 +1,13 @@
+width=400
+height=300
+location=center
+show=drun
+prompt=Type to search...
+filter_rate=100
+allow_markup=true
+no_actions=true
+halign=fill
+content_halign=fill
+insensitivy=true
+allow_images=true
+image_size=24
