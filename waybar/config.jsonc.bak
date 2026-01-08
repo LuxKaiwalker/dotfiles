@@ -1,10 +1,11 @@
+//old horizontal bar setup
+
+
 {
   "layer": "top",
   "position": "left",
   "width": 32, 
-  "margin-top": 3,
-  "margin-bottom": 3,
-  "margin-left": 3,
+  "margin-left": 0,
   "margin-right": 0,
   "spacing": 0,
 
@@ -13,18 +14,20 @@
   "modules-right": [
     "tray",
     "cpu",
-    "bluetooth",
+    "memory",
+    "bluetooth", // Added
     "network",
     "wireplumber",
     "backlight",
     "battery",
+    "custom/mako", // Added
     "clock",
     "custom/power"
   ],
 
   "hyprland/workspaces": {
     "orientation": "vertical",
-    "format": "", 
+    "format": "{name}",
     "on-click": "activate",
     "all-outputs": true,
     "sort-by-number": true,
@@ -77,8 +80,14 @@
 
   "cpu": { 
     "format": "", 
-    "rotate": 90, 
+    "rotate": 90,
     "tooltip-format": "CPU Usage: {usage}%" 
+  },
+
+  "memory": { 
+    "format": "", 
+    "rotate": 90,
+    "tooltip-format": "RAM: {percentage}%" 
   },
 
   "battery": {
@@ -86,6 +95,14 @@
     "rotate": 90,
     "format-icons": ["", "", "", "", ""],
     "tooltip-format": "Battery: {capacity}%"
+  },
+
+  "custom/mako": {
+    "format": "",
+    "rotate": 90,
+    "on-click": "makoctl mode -t dnd",
+    "on-click-right": "makoctl dismiss -a",
+    "tooltip": false
   },
 
   "clock": {
@@ -96,7 +113,7 @@
 
   "custom/power": { 
     "format": "", 
-    "on-click": "wlogout", 
+    "on-click": "wlogout",
     "tooltip": false 
   }
 }

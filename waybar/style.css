@@ -1,62 +1,62 @@
-/* Dark Forest Glass Theme */
-@define-color bg_glass rgba(18, 24, 18, 0.75);
+@define-color bg_glass rgba(10, 14, 10, 0.85);
 @define-color fg_fog   #e0eadd;
-@define-color border_mist rgba(124, 148, 115, 0.2);
+@define-color border_mist rgba(124, 148, 115, 0.15);
 @define-color accent_wood #a68a64;
 
 * {
   font-family: "JetBrainsMono Nerd Font", "Roboto", sans-serif;
   font-size: 13px;
-  border: none;
 }
 
 window#waybar {
-  background: transparent;
-}
-
-/* Base style for all module pills */
-#workspaces, #window, #clock, #cpu, #memory, #network, #bluetooth,
-#wireplumber, #backlight, #battery, #tray, #custom-mako, #custom-power {
-  background-color: @bg_glass;
-  color: @fg_fog;
+  background: @bg_glass;
+  /* Floating Effect */
   border: 1px solid @border_mist;
-  border-radius: 10px;
-  padding: 2px 8px;
-  margin: 4px 2px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Workspace Navigation */
+/* Workspace Container */
+#workspaces {
+  /* This adds the margin above the workspace button box */
+  margin-top: 10px;
+}
+
 #workspaces button {
-  padding: 0px 5px;
-  min-width: 20px;
-  color: rgba(224, 234, 221, 0.35);
+  padding: 2px 2px; 
+  color: rgba(224, 234, 221, 0.3);
+  font-size: 16px;
 }
 
 #workspaces button.active {
-  color: #ffffff;
-  background: rgba(124, 148, 115, 0.3);
-  border-radius: 8px;
-}
-
-#workspaces button.urgent {
-  background: #8b4444;
-  color: white;
-}
-
-/* Clock & Highlight Colors */
-#clock {
   color: @accent_wood;
-  font-weight: bold;
+  font-size: 16px;
 }
 
-#network { color: #8fbcbb; }
-#bluetooth { color: #81a1c1; }
-#wireplumber { color: #a3be8c; }
-#custom-power { color: #8b4444; }
-#custom-mako { color: #d49621; }
+/* Centered Window Icon */
+#window {
+  font-size: 16px;
+  color: @accent_wood;
+}
 
-/* Desktop cleaning */
-window#waybar.empty #window {
-  background-color: transparent;
-  border: none;
+/* System Icons */
+#cpu, #bluetooth, #network, #wireplumber, #backlight, #battery {
+  font-size: 14px;
+  padding: 6px 0px;
+}
+
+#clock {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 12px 0px;
+}
+
+#custom-power {
+  font-size: 16px;
+  color: #8b4444;
+  padding-bottom: 15px;
+}
+
+#tray {
+  padding: 8px 0px;
 }
