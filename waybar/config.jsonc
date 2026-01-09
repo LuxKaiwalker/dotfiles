@@ -79,7 +79,8 @@
   "cpu": { 
     "format": "", 
     "rotate": 90, 
-    "tooltip-format": "CPU Usage: {usage}%" 
+    "tooltip-format": "CPU Usage: {usage}%",
+    "on-click":"konsole --title 'htop-float' -e htop"
   },
 
   "battery": {
