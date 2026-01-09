@@ -1,42 +1,52 @@
+/* Color Palette */
+@define-color bg_glass rgba(10, 14, 10, 0.9);
+@define-color border_mist rgba(124, 148, 115, 0.2);
+@define-color hover_gray #353535;   /* Solid grayscale background on hover */
+@define-color accent_wood #a68a64;  /* Sandy Orange border highlight */
+@define-color shutdown_red #8b4444;
+
 * {
     background-image: none;
-    transition: 250ms ease-in-out;
+    box-shadow: none;
 }
 
 window {
-    /* Deepest charcoal-green */
-    background-color: rgba(12, 12, 12, 0.8);
-    /* Noise texture overlay */
-    background-image: url('./noise.png');
+    background-color: rgba(0, 0, 0, 0.3); 
+}
+
+/* Hide text captions - Reverted to your original settings */
+button text {
+    color: transparent;
+    font-size: 0pt;
 }
 
 button {
-    color: #889688; /* Lichen green text */
-    background-color: rgba(20, 27, 20, 0.8); 
-    border: 1px solid rgba(40, 50, 40, 0.6);
-    border-radius: 15px;
-    margin: 15px;
+    background-color: @bg_glass;
+    border: 2px solid @border_mist;
+    border-radius: 10px;
     
-    /* ICON POSITIONING */
+    /* GAPS: 5px margin on each button = 10px gap between buttons */
+    margin: 5px;
+
+    padding: 15px;
+
     background-repeat: no-repeat;
-    background-position: center 20%; /* Anchored higher for the larger icon */
-    background-size: 64px; /* INCREASED: Larger, clearer icons */
+    background-position: center;
+    background-size: 60px; /* Kept at 60px as requested */
     
-    /* TEXT POSITIONING */
-    /* Adjust this if the text is too close or too far */
-    padding-top: 110px; 
-    
-    font-family: "JetBrains Mono", "Roboto", sans-serif;
-    font-size: 1.3rem;
-    font-weight: bold;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
-button:focus, button:active, button:hover {
-    /* Misty forest glow */
-    background-color: rgba(52, 78, 65, 0.5);
-    border-color: #81b29a;
-    color: #dad7cd; /* Bright mist-white on hover */
-    outline-style: none;
+/* HOVER EFFECT */
+button:hover {
+    background-color: @hover_gray; /* Solid Gray Background */
+    border-color: @accent_wood;    /* Sandy Orange Border */
+}
+
+/* SHUTDOWN HOVER */
+#shutdown:hover {
+    background-color: @shutdown_red;
+    border-color: #ff9999; /* Lighter highlight for the red button */
 }
 
 /* Icon Paths */
@@ -44,5 +54,5 @@ button:focus, button:active, button:hover {
 #logout    { background-image: image(url("/usr/share/wlogout/icons/logout.png")); }
 #suspend   { background-image: image(url("/usr/share/wlogout/icons/suspend.png")); }
 #hibernate { background-image: image(url("/usr/share/wlogout/icons/hibernate.png")); }
-#shutdown  { background-image: image(url("/usr/share/wlogout/icons/shutdown.png")); }
 #reboot    { background-image: image(url("/usr/share/wlogout/icons/reboot.png")); }
+#shutdown  { background-image: image(url("/usr/share/wlogout/icons/shutdown.png")); }
