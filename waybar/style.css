@@ -66,6 +66,11 @@ window#waybar {
   padding-bottom: 15px;
 }
 
-#tray {
-  padding: 8px 0px;
-}
+/* Hide System Tray */
+/*#tray {
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+    padding: 0px;
+}*/
+

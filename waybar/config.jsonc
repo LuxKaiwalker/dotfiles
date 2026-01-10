@@ -1,8 +1,7 @@
-
 {
   "layer": "top",
   "position": "left",
-  "width": 30, 
+  "width": 30,
   "margin-top": 3,
   "margin-bottom": 3,
   "margin-left": 3,
@@ -12,7 +11,6 @@
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
   "modules-right": [
-    "tray",
     "cpu",
     "bluetooth",
     "network",
@@ -25,12 +23,12 @@
 
   "hyprland/workspaces": {
     "orientation": "vertical",
-    "format": "", 
+    "format": "",
     "on-click": "activate",
     "all-outputs": true,
     "sort-by-number": true,
     "persistent-workspaces": {
-      "*": 10 
+      "*": 10
     }
   },
 
@@ -76,10 +74,10 @@
     "tooltip-format": "Brightness: {percent}%"
   },
 
-  "cpu": { 
-    "format": "", 
-    "rotate": 90, 
-    "on-click":"konsole --title 'htop-float' -e htop",
+  "cpu": {
+    "format": "",
+    "rotate": 90,
+    "on-click": "konsole --title 'htop-float' -e htop",
     "tooltip-format": "CPU Usage: {usage}%"
   },
 
@@ -96,9 +94,9 @@
     "tooltip-format": "<tt>{calendar}</tt>"
   },
 
-  "custom/power": { 
-    "format": "", 
-    "on-click": "wlogout", 
-    "tooltip": false 
+  "custom/power": {
+    "format": "",
+    "on-click": "wlogout",
+    "tooltip": false
   }
 }
