@@ -62,6 +62,7 @@
 
   "wireplumber": {
     "format": "{icon}",
+    "format-muted": "",
     "rotate": 90,
     "format-icons": ["", "", ""],
     "on-click": "pavucontrol",
@@ -85,6 +86,11 @@
     "format": "{icon}",
     "rotate": 90,
     "format-icons": ["", "", "", "", ""],
+
+    "format-charging": "{icon}",
+    "format-charging-icons": ["", "", "", "", ""],
+
+    "format-plugged": "",
     "tooltip-format": "Battery: {capacity}%"
   },
 
