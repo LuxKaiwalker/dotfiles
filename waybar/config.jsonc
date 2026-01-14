@@ -66,7 +66,8 @@
     "rotate": 90,
     "format-icons": ["", "", ""],
     "on-click": "pavucontrol",
-    "tooltip-format": "Volume: {volume}%"
+    "tooltip-format": "Volume: {volume}%",
+    "swap-icon-label": false
   },
 
   "backlight": {
@@ -86,12 +87,11 @@
     "format": "{icon}",
     "rotate": 90,
     "format-icons": ["", "", "", "", ""],
-
     "format-charging": "{icon}",
     "format-charging-icons": ["", "", "", "", ""],
-
     "format-plugged": "",
-    "tooltip-format": "Battery: {capacity}%"
+    "tooltip-format": "Battery: {capacity}%",
+    "swap-icon-label": false
   },
 
   "clock": {
