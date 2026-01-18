@@ -14,5 +14,6 @@ make low battery auto shutdown to auto hibernate if i haeve time, upower
 
 IMPORTANT: fix hibernate
 
+fix more issues: popup windows should be able to float
 
 config multiple screen setup
