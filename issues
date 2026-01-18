@@ -13,3 +13,6 @@ fix gnome keyring ssh integration, it is not yet working
 make low battery auto shutdown to auto hibernate if i haeve time, upower
 
 IMPORTANT: fix hibernate
+
+
+config multiple screen setup
