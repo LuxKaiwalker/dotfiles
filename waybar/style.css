@@ -44,12 +44,7 @@ window#waybar {
 }
 
 /* System icons */
-#cpu,
-#bluetooth,
-#network,
-#wireplumber,
-#backlight,
-#battery {
+#cpu, #bluetooth, #network, #wireplumber, #backlight, #battery {
   font-size: 14px;
   padding: 6px 0px;
 }
