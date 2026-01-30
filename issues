@@ -22,3 +22,16 @@ idea: upon connecting, menu is new display, but it is one of my 10 displays in w
 
 
 fix projector no wallpaper isssue
+
+fix multiple selesctor menues open not okay
+
+fix if full screen forced then auto float
+
+#############
+###DESKTOP###
+#############
+
+-install apps
+-fix waybar color
+-isntalling attuf leads to 1 sec delay,fix later
+
