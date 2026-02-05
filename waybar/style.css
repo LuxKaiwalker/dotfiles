@@ -22,7 +22,7 @@ window#waybar {
 
 #workspaces button {
   padding: 2px 2px; 
-  color: rgba(224, 234, 221, 0.3); /* keep dots transparent */
+  color: rgba(224, 234, 221, 0.3);
   font-size: 16px;
 }
 
@@ -40,21 +40,19 @@ window#waybar {
 /* Center window icon */
 #window {
   font-size: 16px;
-  color: @fg_fog; /* light text */
+  color: @accent_wood;
 }
 
 /* System icons */
 #cpu, #bluetooth, #network, #wireplumber, #backlight, #battery {
   font-size: 14px;
   padding: 6px 0px;
-  color: @fg_fog; /* light text */
 }
 
 #clock {
   font-size: 13px;
   font-weight: bold;
   padding: 12px 0px;
-  color: @fg_fog; /* light text */
 }
 
 #custom-power {
