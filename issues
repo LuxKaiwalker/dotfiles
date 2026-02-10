@@ -29,6 +29,8 @@ fix if full screen forced then auto float
 
 IMPORTANT: after relogin on main device, fsr everything freezes for a while. check out what is wrong
 
+IMPORTANT: hyprsuspend or something takes very long to wake up. try to fix by for example not blurring or something 
+
 #############
 ###DESKTOP###
 #############
