@@ -1,6 +1,7 @@
 # Dotfiles
 
-These are my dotfiles for my hyprland configuration they include, most notoriously,
+These are my dotfiles for my hyprland configuration. 
+They include, most notoriously,
 
 - waybar
 - hypr
