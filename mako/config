@@ -40,4 +40,4 @@ border-color=#a3be8c
 invisible=1
 
 [app-name=Firefox]
-ignore=1
+invisible=1
