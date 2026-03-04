@@ -38,3 +38,6 @@ border-color=#a3be8c
 
 [app-name=lightcord summary~="(.*(^| )orz|ORZ|sto|STO|otl|OTL( |$).*)"]
 invisible=1
+
+[app-name=Firefox]
+ignore=1
