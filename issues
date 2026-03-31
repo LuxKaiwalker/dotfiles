@@ -20,12 +20,13 @@ config multiple screen setup, fix waybar bugs coming with it
 
 idea: upon connecting, menu is new display, but it is one of my 10 displays in waybar. this mean that i can change evry display and also have two same displays open simultaneously.
 
-
 fix projector no wallpaper isssue
 
 fix multiple selesctor menues open not okay
 
 fix if full screen forced then auto float
+
+fix notify after screenshot, otherwise kind of unintuitive
 
 IMPORTANT: after relogin on main device, fsr everything freezes for a while. check out what is wrong
 
