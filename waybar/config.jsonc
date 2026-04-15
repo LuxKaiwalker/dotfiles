@@ -15,6 +15,7 @@
     "modules-right": [
       "cpu",
       "bluetooth",
+      "custom/net-monitor",
       "network",
       "wireplumber",
       "backlight",
@@ -59,11 +60,18 @@
       "tooltip-format": "{status} {device_enumerate}"
     },
 
+    "custom/net-monitor": {
+      "format": "󰓅",
+      "tooltip": "Open network monitor",
+      "on-click": "konsole -e nload",
+      "interval": "once"
+    },
+
     "network": {
       "format-wifi": "",
       "format-ethernet": "󰈀",
       "rotate": 90,
-      "on-click": "nmtui",
+      "on-click": "konsole -e nmtui",
       "tooltip-format-wifi": "{essid} {signalStrength}%",
       "tooltip-format-ethernet": "Ethernet: {ifname}",
       "tooltip-format-disconnected": "No network connected"
