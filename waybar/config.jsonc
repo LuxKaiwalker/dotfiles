@@ -18,7 +18,6 @@
       "custom/net-monitor",
       "network",
       "wireplumber",
-      "backlight",
       "battery",
       "clock",
       "custom/power"
@@ -83,12 +82,6 @@
       "format-icons": ["", "", ""],
       "on-click": "pavucontrol",
       "tooltip-format": "{volume}%"
-    },
-
-    "backlight": {
-      "format": "󰃠",
-      "rotate": 90,
-      "tooltip-format": "{percent}%"
     },
 
     "battery": {
