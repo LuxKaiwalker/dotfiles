@@ -44,7 +44,7 @@ window#waybar {
 }
 
 /* System icons */
-#cpu, #bluetooth, #network, #wireplumber, #backlight, #battery {
+#custom-net-monitor, #network, #cpu, #bluetooth, #wireplumber, #battery {
   font-size: 14px;
   padding: 6px 0px;
 }
