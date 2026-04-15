@@ -14,10 +14,10 @@
     "modules-center": ["hyprland/window"],
     "modules-right": [
 
-      "custom/net-monitor",
-      "network",
       "cpu",
       "bluetooth",
+      "custom/net-monitor",
+      "network",
       "wireplumber",
       "battery",
       "clock",
@@ -45,7 +45,20 @@
         "konsole": ""
       }
     },
-    
+
+    "cpu": {
+      "format": "",
+      "rotate": 90,
+      "on-click": "htop",
+      "tooltip-format": "CPU usage: {usage}%"
+    },
+
+    "bluetooth": {
+      "format": "",
+      "rotate": 90,
+      "on-click": "konsole --title 'bluetui-float' -e bluetui",
+      "tooltip-format": "{status} {device_enumerate}"
+    },
 
     "custom/net-monitor": {
       "format": "󰓅",
@@ -62,20 +75,6 @@
       "tooltip-format-wifi": "{essid} {signalStrength}%",
       "tooltip-format-ethernet": "Ethernet: {ifname}",
       "tooltip-format-disconnected": "No network connected"
-    },
-
-    "cpu": {
-      "format": "",
-      "rotate": 90,
-      "on-click": "htop",
-      "tooltip-format": "CPU usage: {usage}%"
-    },
-
-    "bluetooth": {
-      "format": "",
-      "rotate": 90,
-      "on-click": "konsole --title 'bluetui-float' -e bluetui",
-      "tooltip-format": "{status} {device_enumerate}"
     },
 
     "wireplumber": {
