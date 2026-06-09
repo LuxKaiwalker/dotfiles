@@ -86,8 +86,7 @@
 
     "battery": {
       "format": "{icon}",
-      "format-icons": ["", "", "", "", ""]      pkill waybar || true
-      waybar &
+      "format-icons": ["", "", "", "", ""],
       "rotate": 90,
       "tooltip-format": "{capacity}%"
     },
