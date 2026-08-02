@@ -1,0 +1,36 @@
+window {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: black;
+}
+
+window#eDP-1 {
+    background-image: url("/home/vincent/Pictures/wallpapers/dark_planet.jpg");
+}
+
+window#HDMI-A-1 {
+    background-image: url("/home/vincent/Pictures/wallpapers/zelda/zelda.jpg");
+}
+
+label {
+    color: #ebf5f0;
+    font-family: "JetBrains Mono Nerd Font";
+    font-size: 20px;
+}
+
+entry {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ebf5f0;
+    border: 3px solid #89bda6;
+    border-radius: 6px;
+    min-width: 200px;
+    min-height: 40px;
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ebf5f0;
+    border: 3px solid #89bda6;
+    border-radius: 6px;
+}
