@@ -1,0 +1,767 @@
+Yesterday 7:02 PM
+Today 10:07 AM
+Today 3:12 PM
+
+Use this generate.py for evaluating your instruction-tuned model. It is adapted to your current architecture:
+
+model.py (GPT, lm_head, VOCAB_SIZE=50257)
+GPT2TokenizerFast
+checkpoint format:
+{
+    "model": model.state_dict(),
+    "step": ...,
+    "val_loss": ...
+}
+
+It includes:
+
+temperature sampling
+top-k
+top-p
+repetition penalty
+correct instruction prompt format
+multiple test prompts
+interactive chat mode
+
+Save as generate.py.
+
+import torch
+import torch.nn.functional as F
+from transformers import GPT2TokenizerFast
+
+from model import GPT
+
+
+# =====================================================
+# Configuration
+# =====================================================
+
+DEVICE = "cuda"
+
+MODEL_PATH = "instruction_model.pt"
+
+TOKENIZER_PATH = "./tokenizer"
+
+BLOCK_SIZE = 512
+
+MAX_NEW_TOKENS = 256
+
+TEMPERATURE = 0.7
+
+TOP_K = 50
+
+TOP_P = 0.95
+
+REPETITION_PENALTY = 1.15
+
+
+
+# =====================================================
+# Load tokenizer
+# =====================================================
+
+print("Loading tokenizer...")
+
+tokenizer = GPT2TokenizerFast.from_pretrained(
+    TOKENIZER_PATH
+)
+
+tokenizer.pad_token = tokenizer.eos_token
+
+
+
+# =====================================================
+# Load model
+# =====================================================
+
+print("Loading model...")
+
+
+model = GPT().to(
+    DEVICE
+)
+
+
+checkpoint = torch.load(
+    MODEL_PATH,
+    map_location=DEVICE
+)
+
+
+model.load_state_dict(
+    checkpoint["model"]
+)
+
+
+model.eval()
+
+
+print(
+    "Model loaded."
+)
+
+
+if "step" in checkpoint:
+    print(
+        "Training step:",
+        checkpoint["step"]
+    )
+
+if "val_loss" in checkpoint:
+    print(
+        "Validation loss:",
+        checkpoint["val_loss"]
+    )
+
+
+
+# =====================================================
+# Sampling helpers
+# =====================================================
+
+
+def apply_repetition_penalty(
+    logits,
+    tokens,
+    penalty
+):
+
+    unique_tokens = torch.unique(
+        tokens
+    )
+
+    logits[:, unique_tokens] /= penalty
+
+    return logits
+
+
+
+def top_k_top_p_filter(
+    logits,
+    top_k=50,
+    top_p=0.95
+):
+
+    # ----------------------
+    # top-k
+    # ----------------------
+
+    if top_k:
+
+        values, indices = torch.topk(
+            logits,
+            top_k
+        )
+
+
+        filtered = torch.full_like(
+            logits,
+            float("-inf")
+        )
+
+
+        filtered.scatter_(
+            1,
+            indices,
+            values
+        )
+
+
+        logits = filtered
+
+
+
+    # ----------------------
+    # nucleus sampling
+    # ----------------------
+
+    if top_p < 1.0:
+
+        sorted_logits, sorted_indices = torch.sort(
+            logits,
+            descending=True
+        )
+
+
+        probs = torch.softmax(
+            sorted_logits,
+            dim=-1
+        )
+
+
+        cumulative_probs = torch.cumsum(
+            probs,
+            dim=-1
+        )
+
+
+        remove = cumulative_probs > top_p
+
+
+        remove[:,1:] = remove[:,:-1].clone()
+
+        remove[:,0] = False
+
+
+        sorted_logits[remove] = float("-inf")
+
+
+        filtered = torch.full_like(
+            logits,
+            float("-inf")
+        )
+
+
+        filtered.scatter_(
+            1,
+            sorted_indices,
+            sorted_logits
+        )
+
+
+        logits = filtered
+
+
+    return logits
+
+
+
+# =====================================================
+# Generation
+# =====================================================
+
+
+@torch.no_grad()
+def generate(
+    instruction,
+    max_new_tokens=MAX_NEW_TOKENS
+):
+
+
+    prompt = (
+        "### Instruction:\n"
+        + instruction.strip()
+        + "\n\n### Response:\n"
+    )
+
+
+    input_ids = tokenizer.encode(
+        prompt,
+        return_tensors="pt"
+    ).to(
+        DEVICE
+    )
+
+
+    generated = input_ids.clone()
+
+
+
+    for _ in range(max_new_tokens):
+
+
+        context = generated[
+            :, -BLOCK_SIZE:
+        ]
+
+
+
+        with torch.autocast(
+            device_type="cuda",
+            dtype=torch.float16
+        ):
+
+
+            logits, _ = model(
+                context
+            )
+
+
+
+        logits = logits[:, -1, :]
+
+
+
+        logits /= TEMPERATURE
+
+
+
+        logits = apply_repetition_penalty(
+            logits,
+            generated,
+            REPETITION_PENALTY
+        )
+
+
+
+        logits = top_k_top_p_filter(
+            logits,
+            TOP_K,
+            TOP_P
+        )
+
+
+
+        probs = torch.softmax(
+            logits,
+            dim=-1
+        )
+
+
+
+        next_token = torch.multinomial(
+            probs,
+            1
+        )
+
+
+
+        generated = torch.cat(
+            [
+                generated,
+                next_token
+            ],
+            dim=1
+        )
+
+
+
+        if next_token.item() == tokenizer.eos_token_id:
+
+            break
+
+
+
+    decoded = tokenizer.decode(
+        generated[0],
+        skip_special_tokens=True
+    )
+
+
+    # remove instruction part
+
+    response = decoded.split(
+        "### Response:\n"
+    )[-1]
+
+
+    # stop if it starts another instruction
+
+    for stop in [
+        "### Instruction:",
+        "User:"
+    ]:
+
+        if stop in response:
+
+            response = response.split(
+                stop
+            )[0]
+
+
+    return response.strip()
+
+
+
+# =====================================================
+# Automated evaluation prompts
+# =====================================================
+
+
+tests = [
+
+    "Explain gravity in simple terms.",
+
+    "Write a Python function that checks if a number is prime.",
+
+    "What are the advantages of renewable energy?",
+
+    "Explain the difference between RAM and storage.",
+
+    "Give me a recipe for a healthy breakfast."
+
+]
+
+
+print(
+    "\n\n===== AUTOMATIC TEST =====\n"
+)
+
+
+for prompt in tests:
+
+    print(
+        "Instruction:"
+    )
+
+    print(prompt)
+
+
+    print(
+        "\nResponse:"
+    )
+
+    print(
+        generate(prompt)
+    )
+
+
+    print(
+        "\n" + "="*60 + "\n"
+    )
+
+
+
+# =====================================================
+# Interactive mode
+# =====================================================
+
+
+print(
+    """
+Interactive mode.
+
+Type 'quit' to exit.
+"""
+)
+
+
+while True:
+
+
+    user = input(
+        "\nInstruction: "
+    )
+
+
+    if user.lower() in [
+        "quit",
+        "exit"
+    ]:
+
+        break
+
+
+
+    response = generate(
+        user
+    )
+
+
+    print(
+        "\nResponse:"
+    )
+
+    print(
+        response
+    )
+
+Run:
+
+python generate.py
+
+The first thing to evaluate is not whether it is "smart", but:
+
+Does it answer instead of outputting whitespace?
+Does it follow the instruction?
+Does it keep coherent grammar?
+Does it hallucinate excessively?
+
+Given your setup:
+
+124M parameters
+GPT-2 tokenizer
+~10h pretraining
+~1-2h instruction tuning
+
+a realistic result is roughly comparable to an early GPT-2 small model with better instruction following, not ChatGPT-level reasoning. It should however produce useful short answers.
+
+===== AUTOMATIC TEST =====
+
+Instruction:
+Explain gravity in simple terms.
+
+Response:
+"But""OneSoThenAndAndItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItIt it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it
+
+============================================================
+
+Instruction:
+Write a Python function that checks if a number is prime.
+
+Response:
+ButItIOneTheAndItNoThatSoSoSoSoSoFinallyThenSoAndAndAndAndAndAndSoAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAnd AndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAndAnd
+
+============================================================
+
+Instruction:
+What are the advantages of renewable energy?
+
+Response:
+""OneAnd""""""""""""""""""""""TheSoItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItItIt it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it it
+
+============================================================
+
+Instruction:
+Explain the difference between RAM and storage.
+
+Response:
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""The"""MomLBecause"""""No""""""""It"""""""""""
+
+============================================================
+
+Instruction:
+Give me a recipe for a healthy breakfast.
+
+Response:
+But""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""What"""""It"""Mom"""""""""""""""""
+
+============================================================
+
+
+Interactive mode.
+
+Type 'quit' to exit.
+
+
+Instruction: 
+
+The model is clearly not generating meaningful text after instruction tuning. The symptom pattern:
+
+repeated tokens (ItItItIt, """""""")
+short vocabulary collapse
+no semantic response
+no EOS stopping
+
+indicates the model weights are valid but the instruction tuning damaged the language distribution. This is a common failure mode. Your validation loss of 0.5446 was misleading because the validation objective only measured token prediction on the masked labels, not whether free-form generation works.
+
+The likely causes in your setup:
+
+1. Most likely: incorrect fine-tuning objective
+
+Your dataset uses:
+
+User:
+instruction
+
+Assistant:
+answer
+
+and masks the prompt:
+
+labels = (
+    [-100] * len(prompt_ids)
+    + answer_ids
+)
+
+This is correct.
+
+However, your generation prompt probably does not exactly match the training format.
+
+During training the model saw:
+
+User:
+Explain gravity in simple terms.
+
+Assistant:
+Gravity is ...
+
+During inference it must receive exactly:
+
+User:
+Explain gravity in simple terms.
+
+Assistant:
+
+Any deviation can cause degeneration.
+
+2. You probably destroyed the pretrained distribution
+
+Your training:
+
+MAX_STEPS = 8000
+LR = 3e-5
+AdamW8bit
+
+For a 124M parameter GPT this is actually quite aggressive.
+
+Alpaca has ~52k examples.
+
+8000 steps × batch 32 effective:
+
+8000 × 32 = 256000 examples
+
+You effectively saw the whole dataset about:
+
+256000 / 52000 ≈ 5 epochs
+
+That is a lot.
+
+For instruction tuning a pretrained GPT, usually:
+
+1 epoch
+LR 5e-6 to 1e-5
+
+is enough.
+
+Your model probably overfit the instruction format and lost general language ability.
+
+3. Your tokenizer/model mismatch needs checking
+
+Run:
+
+python - <<EOF
+import torch
+
+ckpt=torch.load(
+"instruction_model_final.pt",
+map_location="cpu"
+)
+
+print(ckpt.keys())
+
+EOF
+
+Then check:
+
+from transformers import GPT2TokenizerFast
+
+tok=GPT2TokenizerFast.from_pretrained("./tokenizer")
+
+print(tok.vocab_size)
+print(tok.eos_token_id)
+
+Your model:
+
+VOCAB_SIZE = 50257
+
+must match.
+
+4. Test whether the pretrained model is still intact
+
+Before changing anything, compare:
+
+best_model.pt
+
+versus:
+
+instruction_model_final.pt
+
+using the same prompt.
+
+Create:
+
+MODEL_PATH="best_model.pt"
+
+in generate.py.
+
+If pretrained produces Shakespeare/English and instruction model produces garbage, then fine-tuning caused the collapse.
+
+Recommended fix
+
+Do another instruction tuning run, but much gentler.
+
+Change:
+
+MAX_STEPS = 8000
+
+to:
+
+MAX_STEPS = 1500
+
+Change:
+
+LR = 3e-5
+
+to:
+
+LR = 5e-6
+
+Keep:
+
+BATCH_SIZE = 8
+GRAD_ACCUM = 4
+
+Effective batch:
+
+32
+
+is good.
+
+Add generation fixes
+
+Your generation should use:
+
+temperature=0.7
+top_k=40
+top_p=0.9
+repetition_penalty=1.15
+
+The repetition penalty is important.
+
+Add before sampling:
+
+for token_id in set(tokens[0].tolist()):
+    logits[:, token_id] /= 1.15
+Also add EOS handling
+
+Your training appends:
+
+answer + eos_token
+
+so generation should stop.
+
+Make sure:
+
+if next_token.item() == tokenizer.eos_token_id:
+    break
+
+exists.
+
+My expectation
+
+Your current result:
+
+"But""OneSoThenAnd..."
+
+is not a minor generation parameter problem. It indicates model degeneration.
+
+The best path is:
+
+keep best_model.pt
+redo instruction tuning with:
+LR = 5e-6
+steps ≈1500-2500
+save best validation checkpoint
+evaluate generation again
+
+A 124M GPT should easily answer:
+
+Explain gravity.
+
+with something like:
+
+Gravity is the force that attracts objects with mass toward each other...
+
+Your hardware is sufficient; the issue is training procedure, not model capacity.
+
+Today 6:40 PM
+estimate how man tokens this conversation is from teh very beginning until now
+
+Estimating from the visible conversation history plus the large code blocks you pasted:
+
+User messages: roughly 25–35k tokens
+Assistant responses: roughly 10–20k tokens (many were skipped in the displayed history, so exact count is unavailable)
+Code blocks alone: likely 15k–25k tokens (especially train.py, model.py, datasets, etc.)
+
+A reasonable estimate for the whole conversation from the beginning:
+
+≈ 40,000–60,000 tokens
+
+The actual number could be higher because several long assistant messages are represented as “Skipped 1 message” in the transcript, meaning I do not have their full text available for counting.
+
+For comparison:
+
+GPT-4-class context windows are often around 32k–128k tokens
+This conversation is likely somewhere around the middle of that range.
+Your pasted ML project code is probably the dominant contributor, not the discussion text.
