@@ -10,7 +10,8 @@
 
 window#waybar {
   background: @bg_glass;
-  border: 1px solid @border_mist;
+  border: none;
+  border-right: 1px solid @border_mist;
   border-radius: 0px;
   box-shadow: 2px 0 0 rgba(0, 0, 0, 0.4);
 }
