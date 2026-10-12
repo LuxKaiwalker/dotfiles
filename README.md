@@ -24,10 +24,23 @@ hypr/
 │   ├── autostart.lua   environment variables + startup processes
 │   ├── look.lua        general / decoration / animations / dwindle / misc
 │   ├── input.lua       keyboard, pointer, touchpad
+│   ├── statusbar.lua   waybar show/hide, and the left window margin with it
 │   ├── binds.lua       keybindings
 │   └── rules.lua       window rules
 └── hypridle.conf       hypridle still uses hyprlang; unchanged
 ```
+
+### Hiding the status bar
+
+`SUPER+A` toggles waybar. Waybar's own `SIGUSR1` does the hiding, which
+releases its exclusive zone, so windows reflow onto the 30px the bar was
+holding on the left edge; `general:gaps_out` loses its left gap for as long as
+the bar is away, so a hidden bar really does mean 0px between a window and the
+left border. `SUPER+W` is fullscreen. See `conf/statusbar.lua`.
+
+One Hyprland quirk worth knowing: dwindle does not re-tile a workspace that has
+a fullscreen window on it, so windows there take the new margin once the
+fullscreen window is dismissed, not while it is up.
 
 ### Deploying
 

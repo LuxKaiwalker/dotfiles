@@ -3,10 +3,10 @@
 --
 -- See https://wiki.hypr.land/Configuring/Basics/Binds/
 --
--- Returns a function so the entry point can inject conf/programs.lua rather
--- than this module reaching for a global.
+-- Returns a function so the entry point can inject conf/programs.lua and
+-- conf/statusbar.lua rather than this module reaching for a global.
 --
-return function(programs)
+return function(programs, statusbar)
 
 local MOD = "SUPER" -- also produced by Caps Lock, see conf/input.lua
 
@@ -32,6 +32,10 @@ hl.bind("Print", hl.dsp.exec_cmd(programs.screenshot))
 hl.bind(MOD .. " + Q", hl.dsp.window.close())
 hl.bind(MOD .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(MOD .. " + W", hl.dsp.window.fullscreen())
+
+-- Hide the status bar, and the left margin with it; pressing it again brings
+-- both back. See conf/statusbar.lua.
+hl.bind(MOD .. " + A", statusbar.toggle)
 
 -- Cycle the two keyboard layouts declared in conf/input.lua.
 hl.bind(MOD .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
