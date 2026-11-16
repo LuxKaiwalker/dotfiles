@@ -3,7 +3,7 @@
     "output": ["eDP-1", "HDMI-A-1"],
     "layer": "top",
     "position": "left",
-    "width": 30,
+    "width": 32,
     "margin-top": 0,
     "margin-bottom": 0,
     "margin-left": 0,
@@ -71,7 +71,9 @@
 
     "custom/net-monitor": {
       "format": "󰓅",
-      "tooltip": "Open network monitor",
+      "rotate": 90,
+      "tooltip": true,
+      "tooltip-format": "Open network monitor",
       "on-click": "konsole -e nload",
       "interval": "once"
     },
@@ -110,6 +112,7 @@
 
     "custom/power": {
       "format": "",
+      "rotate": 90,
       "on-click": "wlogout",
       "tooltip": false
     }
