@@ -37,6 +37,11 @@ hl.bind(MOD .. " + W", hl.dsp.window.fullscreen())
 -- both back. See conf/statusbar.lua.
 hl.bind(MOD .. " + A", statusbar.toggle)
 
+-- Turn the screen off / back on. `locked` so SUPER+O still wakes it if
+-- hypridle locks the session while it is dark.
+hl.bind(MOD .. " + P", hl.dsp.exec_cmd("hyprctl dispatch dpms off"), { locked = true })
+hl.bind(MOD .. " + O", hl.dsp.exec_cmd("hyprctl dispatch dpms on"),  { locked = true })
+
 -- Cycle the two keyboard layouts declared in conf/input.lua.
 hl.bind(MOD .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
 
