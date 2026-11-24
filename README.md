@@ -96,6 +96,7 @@ SUPER + Q               close window        (Q, to match close-tab reflex)
 SUPER + V               toggle floating
 SUPER + W               fullscreen
 SUPER + A               toggle the status bar
+SUPER + P / O           screen off / on     (dpms, works while locked)
 SUPER + SPACE           next keyboard layout (QWERTY <-> Colemak)
 SUPER + LMB / RMB       drag to move / resize
 
